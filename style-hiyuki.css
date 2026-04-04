@@ -180,7 +180,7 @@ video.hero-img {
 .div { height: 1px; background: linear-gradient(to right, transparent, rgba(100,200,255,0.15), transparent); margin: 1.5rem 0; }
 
 .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
-.pill { font-size: 12px; padding: 5px 14px; border-radius: 99px; background: rgba(20, 60, 120, 0.45); color: var(--text-secondary); border: 1px solid rgba(100, 180, 255, 0.2); backdrop-filter: blur(6px); line-height: 1.5; }
+.pill { font-size: 12px; padding: 5px 14px; border-radius: 10px; background: rgba(20, 60, 120, 0.45); color: var(--text-secondary); border: 1px solid rgba(100, 180, 255, 0.2); backdrop-filter: blur(6px); line-height: 1.5; }
 .pill b { color: var(--c1); }
 
 @media (max-width: 680px) {

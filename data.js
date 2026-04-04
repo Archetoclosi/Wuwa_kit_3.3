@@ -198,8 +198,8 @@ const CHARACTERS = {
 
     // ── INTRO / OUTRO ────────────────────────────────────────────
     intro_outro: [
-      "Intro — Frostedge: Glacio DMG degli alleati su nemici con Glacio Chafe <b>+20%</b> per 20s",
-      "Outro — Snowlight Blessing: Glacio DMG dei Resonator vicini (non Hiyuki) su nemici con Glacio Chafe amplificato del <b>20%</b> per 20s"
+      "Intro — Frostedge: Deal Glacio DMG, considered Resonance Liberation DMG, and apply 1 stack of **Glacio Chafe** on hit. In **Present Self**, casting this skill restores 100 points of **Dedication**. In **Foreclaimed Self**, press **Normal Attack** within a certain period after casting this skill to cast **Basic Attack - Foreclaimed Self Stage 2**.",
+      "Outro — Snowlight Blessing: Glacio DMG dealt by nearby Resonators other than Hiyuki in the team is Amplified by 20% against targets affected by **Glacio Chafe** for 20s."
     ],
 
     // ── SEQUENZE / RESONANCE CHAIN ───────────────────────────────
@@ -274,27 +274,27 @@ const CHARACTERS = {
     resources: [
       {
         name: "Dedication",
-        desc: "Gained from Basic Attack Stage 3 (Present Self) and Resonance Skill · Present Self (+100 each). Enables Frost Splinter when full.",
+        desc: "Hiyuki holds up to 300 points of Dedication. While in Present Self, casting Basic Attack — Present Self Stage 3 and Resonance Skill — Present Self restores 100 points of Dedication.",
         max: "Max 300 pt"
       },
       {
         name: "Bitterfrost",
-        desc: "Gained from Normal Attacks · Foreclaimed Self (except Frost Splinter), Frostblight: Jade Cleave and Petallfall (on hit). Enables Fudoshin when ≥ 100.",
+        desc: "Hiyuki holds up to 300 points of Bitterfrost. Casting Normal Attacks — Foreclaimed Self other than Frost Splinter: Foreclaimed Self, Frostblight: Jade Cleave, and Frostblight: Petallfall restores Bitterfrost on hit.",
         max: "Max 300 pt"
       },
       {
         name: "Snow-rust",
-        desc: "Obtained by casting Foreclaiming: Inward Vision (3 stacks). Consumed by Frost Rite to boost its damage, apply 3 stacks of Glacio Chafe and gain 1 Flaming Sakura.",
+        desc: "A maximum of 3 points. Casting Foreclaiming: Inward Vision grants 3 points of Snow-rust.",
         max: "Max 3 stacks"
       },
       {
         name: "Flaming Sakura",
-        desc: "Gained each time Snow-rust is consumed by Frost Rite. Enables Frost Splinter · Foreclaimed Self when full.",
+        desc: "Flaming Sakura stacks up to 3 times. Each time Snow-rust is consumed through Frost Rite, gain 1 stack of Flaming Sakura.",
         max: "Max 3 stacks"
       },
       {
         name: "Lingering Might",
-        desc: "Gained each time Frost Rite consumes Snow-rust. Stacks up to 3 times.",
+        desc: "Lingering Might stacks up to 3 times. Each time Snow-rust is consumed through Frost Rite, gain 1 stack of Lingering Might.",
         max: "Max 3 stacks"
       }
     ],
@@ -302,35 +302,42 @@ const CHARACTERS = {
     forte: [
       {
         title: "Glacio Bite",
-        body: "While Hiyuki is in the team, <b>Glacio Chafe</b> applied to enemies by any Resonator is converted to <b>Glacio Bite</b>. Every time a new stack is inflicted, an instance of <b>Glacio Bite DMG</b> is triggered based on the enemy's current stack limit. When <b>Foreclaiming: Inward Vision</b> or <b>Frost Rite</b> is performed on a target with ≥ 10 stacks, consume 10 stacks and trigger <b>Frostbind</b>. When Hiyuki leaves the team (without another converter), all Glacio Bite stacks are cleared."
+        body: "While Hiyuki is in the team, <b>Glacio Chafe</b> applied to enemies by any Resonator is converted to <b>Glacio Bite</b>. Every time a new stack of Glacio Bite is inflicted on a target, an instance of Glacio Bite DMG is triggered based on that enemy's current <b>Glacio Bite stack limit</b>. When <b>Foreclaiming: Inward Vision</b> or <b>Frost Rite</b> is performed, if the target has no fewer than 10 stacks of Glacio Bite, consume 10 stacks of Glacio Bite and trigger <b>Frostbind</b> once. When Hiyuki joins the team, remove all stacks of <b>Glacio Chafe</b> from the targets. When Hiyuki leaves the team, if there is no other Resonator in the team who can convert Glacio Chafe into Glacio Bite, all enemies' Glacio Bite stacks are cleared."
       },
       {
-        title: "Present Self → Foreclaimed Self",
-        body: "Hiyuki starts in <b>Present Self</b>. Basic Attack Stage 3 and Resonance Skill · Present Self each restore 100 <b>Dedication</b>. Casting <b>Foreclaiming: Inward Vision</b> (Liberation from Present Self) grants 3 <b>Snow-rust</b>, removes 300 Dedication and enters <b>Foreclaimed Self</b>. In Foreclaimed Self, when Bitterfrost ≥ 100, certain actions trigger <b>Fudoshin</b> → <b>Frost Rite</b> (Liberation DMG)."
+        title: "Present Self",
+        body: "Hiyuki starts in <b>Present Self</b>. While in Present Self, casting <b>Basic Attack — Present Self Stage 3</b> or <b>Resonance Skill — Present Self</b> restores 100 points of <b>Dedication</b>."
+      },
+      {
+        title: "Foreclaimed Self",
+        body: "Hiyuki enters <b>Foreclaimed Self</b> after casting <b>Foreclaiming: Inward Vision</b>."
       }
     ],
 
     normalAttack: {
       title: "Flowing Sakura Blade Art",
       presentSelf: [
-        { label: "Basic Attack (5 stages)", desc: "Up to 5 consecutive Glacio attacks. Stage 3 applies 1 stack of Glacio Chafe." },
-        { label: "Heavy Attack", desc: "Consume STA, deal Glacio DMG. Replaced by Frost Splinter · Present Self when Dedication is full." },
-        { label: "Frost Splinter · Present Self", desc: "3 arrows (Dedication full), each consuming 100 Dedication. Glacio DMG, counts as Liberation DMG. Applies 1 Glacio Chafe. Unlocks Foreclaiming: Inward Vision after the last arrow." }
+        { label: "Basic Attack — Present Self (5 stages)", desc: "Perform up to 5 consecutive attacks, dealing Glacio DMG. Basic Attack — Present Self Stage 3 applies 1 stack of Glacio Chafe on hit." },
+        { label: "Heavy Attack — Present Self", desc: "Consume STA to deal Glacio DMG. Press Normal Attack within a certain period after casting this skill to cast Basic Attack — Present Self Stage 3." },
+        { label: "Frost Splinter — Present Self", desc: "When Dedication is full, Heavy Attack — Present Self is replaced with Frost Splinter — Present Self. Shoot out 3 arrows one by one at the cost of STA, each consuming 100 points of Dedication to deal Glacio DMG, considered Resonance Liberation DMG. Frost Splinter — Present Self applies 1 stack of Glacio Chafe on hit. Foreclaiming: Inward Vision unlocks when the last arrow hits or is blocked by a target." },
+        { label: "Mid-Air Attack — Present Self", desc: "Consume STA to perform a Plunging Attack from mid-air, dealing Glacio DMG." },
+        { label: "Dodge Counter — Present Self", desc: "Press Normal Attack within a certain period after dodging to attack the target, dealing Glacio DMG. Press Normal Attack within a certain period after casting this skill to perform Basic Attack — Present Self Stage 3." }
       ],
       foreclaimedSelf: [
-        { label: "Basic Attack (5 stages)", desc: "Up to 5 Glacio attacks. Stages 3, 4, 5 each apply 1 stack of Glacio Chafe." },
-        { label: "Heavy Attack / Hold", desc: "Hold → Hold Breath (consumes STA). Release or STA depleted → Glacio DMG. Parrying hit: reduces damage by 100%, staggers nearby enemies." },
-        { label: "Frost Splinter · Foreclaimed Self", desc: "Hold Normal Attack on the ground (or in mid-air to descend). Consumes STA and 3 Flaming Sakura → Glacio DMG (Liberation DMG). Time is temporarily stopped. Gains 1 Ringing Frost. Applies 1 Glacio Chafe." },
-        { label: "Mid-Air Attack (Stages 1-2)", desc: "Up to 2 mid-air attacks. Stage 2 applies 1 Glacio Chafe. The combo is not reset before landing or when casting skills other than Frost Rite." },
-        { label: "Mid-Air Plunging Attack", desc: "After Mid-Air Stage 2: Normal Attack to plunge, Glacio DMG, applies 1 Glacio Chafe." }
+        { label: "Basic Attack — Foreclaimed Self (5 stages)", desc: "Perform up to 5 consecutive attacks, dealing Glacio DMG. Basic Attack — Foreclaimed Self Stage 3, 4, and 5 each apply 1 stack of Glacio Chafe on hit." },
+        { label: "Heavy Attack — Foreclaimed Self", desc: "In Foreclaimed Self, hold Normal Attack to enter Hold Breath, continuously consuming STA. When Normal Attack is released or STA is depleted, Heavy Attack — Foreclaimed Self will be cast automatically, dealing Glacio DMG. Press Normal Attack within a certain period after casting this skill to perform Basic Attack — Foreclaimed Self Stage 2. If Hiyuki is attacked by an enemy within a certain period during Heavy Attack — Foreclaimed Self, that instance of damage is reduced by 100%, and nearby targets are staggered. Press Normal Attack within a certain period after casting this skill to chain into Basic Attack — Foreclaimed Self Stage 4 instead." },
+        { label: "Frost Splinter: Foreclaimed Self", desc: "When Flaming Sakura is full, Heavy Attack — Foreclaimed Self is replaced with Frost Splinter: Foreclaimed Self. Hold Normal Attack while on the ground to cast this skill. While airborne, hold Normal Attack to descend and then cast this skill. Consume STA and 3 points of Flaming Sakura to deal Glacio DMG, considered Resonance Liberation DMG. Time is temporarily stopped during this move. Casting this skill grants 1 stack of Ringing Frost. Frost Splinter: Foreclaimed Self applies 1 stack of Glacio Chafe on hit." },
+        { label: "Mid-Air Attack — Foreclaimed Self (Stages 1–2)", desc: "Consume STA to perform up to 2 consecutive attacks in mid-air, dealing Glacio DMG. Mid-Air Attack — Foreclaimed Self Stage 2 applies 1 stack of Glacio Chafe on hit. The Mid-Air Attack — Foreclaimed Self combo will not be reset before Hiyuki lands on the ground or if skills other than Frost Rite are cast within a short period. Press Normal Attack within a certain period after casting Mid-Air Attack — Foreclaimed Self Stage 2 to perform Mid-Air Plunging Attack — Foreclaimed Self." },
+        { label: "Mid-Air Plunging Attack — Foreclaimed Self", desc: "Consume STA to descend from mid-air and perform a Plunging Attack, dealing Glacio DMG. Mid-Air Plunging Attack — Foreclaimed Self applies 1 stack of Glacio Chafe on hit." },
+        { label: "Dodge Counter — Foreclaimed Self", desc: "Press Normal Attack within a certain period after dodging to attack the target, dealing Glacio DMG. Press Normal Attack within a certain period after casting this skill to perform Basic Attack — Foreclaimed Self Stage 2." }
       ]
     },
 
     skills: [
       {
-        title: "Frostblight (Resonance Skill · Present Self)",
+        title: "Frostblight — Resonance Skill · Present Self",
         tags: [{ label: "Glacio · CD 20s", type: "c" }],
-        body: "Deal Glacio DMG, restore 100 Dedication. Normal Attack within a certain period → Basic Attack Stage 3. If Dedication < 300, Hold Normal Attack → Basic Attack Stage 3.",
+        body: "Deal Glacio DMG. In Present Self, casting this skill restores 100 points of Dedication. Press Normal Attack within a certain period after casting this skill to perform Basic Attack — Present Self Stage 3. If Dedication is below 300 points, hold Normal Attack within a certain period after casting this skill to perform Basic Attack — Present Self Stage 3.",
         values: [
           ["Resonance Skill · Present Self (Lv.10)", "21.00% × 4 + 84.00%"]
         ]
@@ -338,7 +345,7 @@ const CHARACTERS = {
       {
         title: "Frostblight: Jade Cleave",
         tags: [{ label: "Glacio · CD 12s (shared with Petallfall)", type: "c" }],
-        body: "On the ground: Normal Attack + Skill. Pulls nearby targets, deals Glacio DMG. Parrying hit within a certain period: damage reduced by <b>100%</b>.",
+        body: "While on the ground, press Normal Attack + Resonance Skill to pull in nearby targets and deal Glacio DMG. If Hiyuki is attacked by an enemy within a certain period during Frostblight: Jade Cleave, that instance of damage is reduced by <b>100%</b>. This skill shares a Cooldown with Frostblight: Petallfall.",
         values: [
           ["Jade Cleave (Lv.10)", "57.66% × 4"]
         ]
@@ -346,7 +353,7 @@ const CHARACTERS = {
       {
         title: "Frostblight: Petallfall",
         tags: [{ label: "Glacio · CD 12s (shared with Jade Cleave)", type: "c" }],
-        body: "In mid-air: Resonance Skill. Pulls nearby targets, deals Glacio DMG. Parrying hit within a certain period: damage reduced by <b>100%</b>.",
+        body: "While in mid-air, press Resonance Skill to pull in nearby targets and deal Glacio DMG. If Hiyuki is attacked by an enemy within a certain period during Frostblight: Petallfall, that instance of damage is reduced by <b>100%</b>. This skill shares a Cooldown with Frostblight: Jade Cleave.",
         values: [
           ["Petallfall (Lv.10)", "47.72% × 4 + 47.72%"]
         ]
@@ -357,7 +364,7 @@ const CHARACTERS = {
       {
         title: "Foreclaiming: Inward Vision",
         tags: [{ label: "CD 25s", type: "c" }, { label: "No Resonance Energy", type: "g" }],
-        body: "Available in <b>Present Self</b> after completing Frost Splinter · Present Self. Press Liberation → Glacio DMG, gain 3 <b>Snow-rust</b>, remove 300 Dedication, enter <b>Foreclaimed Self</b>. Applies 4 stacks of Glacio Chafe. <em>Does not consume Resonance Energy.</em>",
+        body: "Foreclaiming: Inward Vision becomes available when Hiyuki is in <b>Present Self</b>. While in Present Self, press Resonance Liberation to cast this skill, dealing Glacio DMG. Upon casting this skill, gain 3 points of <b>Snow-rust</b>, remove 300 points of <b>Dedication</b>, and enter <b>Foreclaimed Self</b>. Foreclaiming: Inward Vision applies 4 stacks of <b>Glacio Chafe</b> on hit. <em>Casting Foreclaiming: Inward Vision does not consume Resonance Energy.</em>",
         values: [
           ["Damage (Lv.10)", "397.62%"],
           ["Energy Restored", "+20"]
@@ -366,7 +373,7 @@ const CHARACTERS = {
       {
         title: "Foreclaiming: Blade Liberation",
         tags: [{ label: "Liberation · 125 en. · CD 25s", type: "l" }],
-        body: "In <b>Foreclaimed Self</b>: Hold Liberation → charging state. Time is temporarily stopped. Resonator switching is disabled. After 1s consumes 1 Snow-rust, then 1 every 0.7s. Release → Glacio DMG. More Snow-rust consumed = higher multiplier. Exits Foreclaimed Self.",
+        body: "While in <b>Foreclaimed Self</b>, hold Resonance Liberation to enter a charging state. During this state, time is temporarily stopped. <b>Resonator switching is disabled.</b> After 1s, 1 point of <b>Snow-rust</b> is consumed, then 1 additional point is consumed every 0.7s thereafter. Release Resonance Liberation to deal Glacio DMG. Each point of Snow-rust consumed while charging the attack increases the DMG Multiplier of this attack. After casting, exit Foreclaimed Self.",
         values: [
           ["0 Snow-rust (Lv.10)", "99.41% + 397.62%"],
           ["1 Snow-rust", "258.46% + 1033.82%"],
@@ -379,7 +386,7 @@ const CHARACTERS = {
     frostRite: {
       title: "Fudoshin → Frost Rite",
       tags: [{ label: "Liberation DMG", type: "l" }],
-      body: "When Bitterfrost ≥ 100, Jade Cleave or Petallfall can unlock a Hold Normal Attack / Resonance Skill to enter <b>Fudoshin</b> (flash backward, or behind the enemy if directional input is held). In Fudoshin: Normal Attack consumes 100 Bitterfrost → <b>Frost Rite</b> (Glacio Liberation DMG). If the target has ≥ 2 Glacio Bite stacks, counts as Liberation DMG. If Snow-rust is held, consume 1 stack: boosted damage + 3 Glacio Chafe + 1 Lingering Might. Parrying hit during Normal Attacks · Foreclaimed Self: damage reduced by 100%.",
+      body: "If Hiyuki has at least 100 points of Bitterfrost, performing any of the following actions causes her to flash backward and enter <b>Fudoshin</b>: Hold Normal Attack within a certain period after casting <b>Frostblight: Jade Cleave</b> or <b>Frostblight: Petallfall</b>; Hold Resonance Skill within a certain period after casting <b>Frostblight: Jade Cleave</b> or <b>Frostblight: Petallfall</b>. While in Fudoshin, if a direction and the forward input is held down, Hiyuki instead flashes behind the enemy and enters Fudoshin. While in Fudoshin, press Normal Attack and consume 100 points of Bitterfrost to cast <b>Frost Rite</b>, dealing Glacio DMG. If the target has no fewer than 2 stacks of Glacio Bite, considered Resonance Liberation DMG. If Bitterfrost remains at 100 points or above after casting this skill, press Normal Attack within a certain period to cast Frost Rite again. If Hiyuki already has Snow-rust, consume 1 stack of Snow-rust to increase the DMG Multiplier of this Frost Rite, apply 3 stacks of <b>Glacio Chafe</b> on hit, and gain 1 stack of <b>Lingering Might</b>. If Hiyuki is attacked by an enemy within a certain period after casting any Normal Attacks — Foreclaimed Self, that instance of damage is reduced by 100%.",
       values: [
         ["With Snow-rust (Lv.10)", "243.35% + 40.56% × 4"],
         ["Without Snow-rust (Lv.10)", "162.23% + 27.04% × 4"],
@@ -391,7 +398,7 @@ const CHARACTERS = {
       {
         title: "Frostedge (Intro Skill)",
         tags: [{ label: "Liberation DMG · +10 en.", type: "g" }],
-        body: "Glacio DMG (Liberation DMG). Applies 1 stack of Glacio Chafe. In Present Self: restores 100 Dedication. In Foreclaimed Self: next Normal Attack → Basic Attack Stage 2.",
+        body: "Deal Glacio DMG, considered Resonance Liberation DMG, and apply 1 stack of <b>Glacio Chafe</b> on hit. In Present Self, casting this skill restores 100 points of <b>Dedication</b>. In Foreclaimed Self, press Normal Attack within a certain period after casting this skill to cast Basic Attack — Foreclaimed Self Stage 2.",
         values: [["Damage (Lv.10)", "129.23%"]]
       }
     ],
@@ -399,68 +406,74 @@ const CHARACTERS = {
     inherent: [
       {
         title: "Ringing Frost",
-        body: "When a Resonator in the team applies <b>Glacio Chafe</b> or <b>Havoc Bane</b>, Hiyuki gains 1 stack of <b>Ringing Frost</b> (max 3, 1 per Resonator). Bonuses per stack:<br>· <b>1 stack:</b> Glacio Bite DMG is amplified by 50% against the active Resonator's target.<br>· <b>2 stacks:</b> Hiyuki's Crit. DMG +40%; each time she applies Glacio Chafe, she additionally deals an instance of Glacio Bite DMG (= 100% ATK).<br>· <b>3 stacks:</b> Glacio Bite DMG is additionally amplified by 30% against targets near the active Resonator.<br>Resets with each Resonator switch."
+        body: "When a Resonator in the team applies <b>Glacio Chafe</b> or <b>Havoc Bane</b>, Hiyuki gains 1 stack of <b>Ringing Frost</b>, up to 3 stacks. Each Resonator can trigger this effect only once. Based on the number of stacks of Ringing Frost, the following bonuses are unlocked:<br>· <b>1 stack:</b> Glacio Bite DMG is amplified by 50% against targets against active Resonator.<br>· <b>2 stacks:</b> Hiyuki's Crit. DMG is increased by 40%. While Hiyuki is on the field, each time she applies Glacio Chafe, she additionally deals an instance of Glacio Bite DMG equal to 100% of her ATK.<br>· <b>3 stacks:</b> Glacio Bite DMG is additionally amplified by 30% against targets around the active Resonator.<br>This effect resets when new Resonators are switched in."
       },
       {
         title: "Ephemeral Realm",
-        body: "If Hiyuki stays out of combat for more than <b>4s</b> and has fewer than 1 Snow-rust, restore Snow-rust."
+        body: "When Hiyuki stays out of combat for more than <b>4s</b> and has fewer than 1 point of Snow-rust, restore Snow-rust."
       }
     ],
 
     glossary: [
       {
         term: "Glacio Chafe",
-        def: "Deals Glacio DMG when inflicted on a target. Each stack reduces the target's movement speed. At the cap (10 stacks by default), the target is <b>frozen</b> and all stacks are removed. More stacks = more DMG and longer freeze duration."
-      },
-      {
-        term: "Glacio Bite",
-        def: "Conversion of Glacio Chafe by Hiyuki. Each new stack triggers an instance of Glacio Bite DMG. ≥ 10 stacks + Inward Vision / Frost Rite → consume 10 stacks and trigger <b>Frostbind</b>."
+        def: "Glacio Chafe deals Glacio DMG when being inflicted on a target. Each stack of Glacio Chafe reduces the target's movement speed. When Glacio Chafe is stacked to its max, the target will be frozen, and all stacks of Glacio Chafe will be removed. Struggle to accelerate your recovery from the frozen state. Glacio Chafe stacks up to 10 times by default. The higher the stacks, the more DMG dealt, and the longer frozen duration."
       },
       {
         term: "Frostbind",
-        def: "The target cannot perform any actions for <b>2s</b>."
+        def: "Targets in this state cannot perform any actions within the duration. The effect lasts for 2s."
       },
       {
-        term: "Fudoshin",
-        def: "Stance activated by Hold input after Jade Cleave / Petallfall (Bitterfrost ≥ 100). Flash backward (or behind the enemy). In this stance: Normal Attack → Frost Rite."
+        term: "Present Self",
+        def: "Hiyuki starts in Present Self. While in Present Self, casting Basic Attack — Present Self Stage 3 or Resonance Skill — Present Self restores 100 points of Dedication."
+      },
+      {
+        term: "Dedication",
+        def: "Hiyuki holds up to 300 points of Dedication. While in Present Self, casting Basic Attack — Present Self Stage 3 and Resonance Skill — Present Self restores 100 points of Dedication."
+      },
+      {
+        term: "Foreclaimed Self",
+        def: "Casting Foreclaiming: Inward Vision causes Hiyuki to enter Foreclaimed Self."
       }
     ],
 
+    tuneBreak: "Tune Break — Sword: When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+
     intro_outro: [
-      "Intro — Frostedge: Glacio DMG dealt by allied Resonators against targets with Glacio Chafe <b>+20%</b> for 20s",
-      "Outro — Snowlight Blessing: Glacio DMG dealt by nearby Resonators (not Hiyuki) against targets with Glacio Chafe is amplified by <b>20%</b> for 20s"
+      "Intro — Frostedge: Deal Glacio DMG (Liberation DMG), apply 1 stack of Glacio Chafe on hit. In Present Self: restores 100 Dedication. In Foreclaimed Self: chains to Basic Attack — Foreclaimed Self Stage 2.",
+      "Outro — Snowlight Blessing: Glacio DMG dealt by nearby Resonators other than Hiyuki in the team is amplified by 20% against targets affected by <b>Glacio Chafe</b> for 20s."
     ],
 
     sequences: [
       {
         num: "S1",
         name: "Springless",
-        body: "DMG Multipliers of Normal Attacks · Foreclaimed Self (except Frost Splinter) +120%. Basic Attack Stage 3 · Foreclaimed Self: increased range, pulls nearby enemies toward the center."
+        body: "The DMG Multipliers of <b>Normal Attacks — Foreclaimed Self</b> other than <b>Frost Splinter: Foreclaimed Self</b> are increased by 120%. Basic Attack — Foreclaimed Self Stage 3 now has an increased range and pulls enemies within range toward the center once."
       },
       {
         num: "S2",
         name: "To Burn Cold in Silence",
-        body: "Frost Rite DMG Multiplier +110%. Out of combat >4s: restore 3 Snow-rust, reset CD of 2 charges of Jade Cleave, +50 Bitterfrost for the next 2 casts of Jade Cleave / Petallfall."
+        body: "<b>Frost Rite's</b> DMG Multiplier is increased by 110%. After staying out of combat for more than 4s, the following effects are triggered: restore 3 points of Snow-rust; reset the Cooldown of 2 charges of <b>Frostblight: Jade Cleave</b>; restore an additional 50 points of Bitterfrost for the next 2 casts of <b>Frostblight: Jade Cleave</b> or <b>Frostblight: Petallfall</b>."
       },
       {
         num: "S3",
         name: "No Self, No Bound",
-        body: "+1 Ringing Frost every 2s while on the field. Rimeblade · Present Self and Rimeblade · Foreclaimed Self +120%. At 2 Ringing Frost: each Glacio Chafe application increases the additional Negative Status multiplier by +488%."
+        body: "Every 2s after joining the team, gain 1 stack of <b>Ringing Frost</b>. The DMG Multipliers of <b>Rimeblade: Present Self</b> and <b>Rimeblade: Foreclaimed Self</b> are increased by 120%. At 2 stacks of Ringing Frost, while Hiyuki is on the field, the DMG Multiplier of the additional Negative Statuses applied each time she inflicts <b>Glacio Chafe</b> is increased by 488%."
       },
       {
         num: "S4",
         name: "Like Reeds on Tides",
-        body: "Casting Resonance Skill · Present Self, Jade Cleave or Petallfall: damage dealt by all nearby Resonators in the team +20% for 30s."
+        body: "Casting <b>Resonance Skill — Present Self</b>, <b>Frostblight: Jade Cleave</b>, or <b>Frostblight: Petallfall</b> increases the damage dealt by all nearby Resonators in the team by 20% for 30s."
       },
       {
         num: "S5",
         name: "Vessel of Thousand Wishes",
-        body: "Resonance Skill · Present Self, Jade Cleave and Petallfall: DMG Multiplier +80%."
+        body: "The DMG Multipliers of <b>Resonance Skill — Present Self</b>, <b>Frostblight: Jade Cleave</b>, and <b>Frostblight: Petallfall</b> are increased by 80%."
       },
       {
         num: "S6",
         name: "Into a Night Without End",
-        body: "Foreclaiming: Inward Vision and Blade Liberation +150%. At 2 Ringing Frost: the Glacio Bite on-field effect extends to the whole team (not just Hiyuki), total Glacio Bite DMG +25%, Hiyuki's Crit. DMG +40%. Out of combat >4s: restore 3 Snow-rust."
+        body: "The DMG Multipliers of <b>Foreclaiming: Inward Vision</b> and <b>Foreclaiming: Blade Liberation</b> are increased by 150%. At 2 stacks of <b>Ringing Frost</b>, the effect \"While Hiyuki is on the field, each time she applies Glacio Chafe, she additionally deals an instance of Glacio Bite DMG\" changes to \"While Hiyuki is on the field, each time a Resonator in the team applies Glacio Chafe, she additionally deals an instance of Glacio Bite DMG\". At 2 stacks of Ringing Frost, the total Glacio Bite DMG enemies around the active Resonator take is increased by 25%. At 2 stacks of Ringing Frost, Hiyuki's Crit. DMG is increased by 40%. After staying out of combat for more than 4s, restore 3 points of Snow-rust."
       }
     ]
   },

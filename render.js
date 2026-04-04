@@ -306,6 +306,7 @@ const HIYUKI_LABELS = {
     inherent:  'Inherent Skills',
     glossary:  'Key Terms Glossary',
     introOutro:'Intro / Outro',
+    tuneBreak: 'Tune Break',
     echoSets:  'Echo Set',
     sequences: 'Resonance Sequences'
   }
