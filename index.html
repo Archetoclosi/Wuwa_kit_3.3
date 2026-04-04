@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hiyuki — Wuthering Waves 3.3</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style-hiyuki.css">
 </head>
 <body>
@@ -16,6 +16,8 @@
   <div class="nav-switch">
     <a href="index.html" class="nav-btn active">Hiyuki</a>
     <a href="denia.html" class="nav-btn">Denia</a>
+    <a href="others.html" class="nav-btn">Others</a>
+    <button id="lang-btn" class="nav-btn lang-btn" aria-label="Toggle language">🇮🇹 IT</button>
   </div>
 </nav>
 
@@ -24,7 +26,19 @@
 <script src="data.js"></script>
 <script src="render.js"></script>
 <script>
-  renderHiyuki(document.getElementById('root'), CHARACTERS.hiyuki);
+  var _lang = 'it';
+  function rerenderHiyuki() {
+    var root = document.getElementById('root');
+    root.innerHTML = '';
+    var data = _lang === 'en' ? CHARACTERS.hiyuki_en : CHARACTERS.hiyuki;
+    renderHiyuki(root, data, _lang);
+  }
+  document.getElementById('lang-btn').addEventListener('click', function() {
+    _lang = _lang === 'it' ? 'en' : 'it';
+    this.textContent = _lang === 'it' ? '🇮🇹 IT' : '🇬🇧 EN';
+    rerenderHiyuki();
+  });
+  rerenderHiyuki();
 </script>
 </body>
 </html>
