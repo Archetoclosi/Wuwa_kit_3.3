@@ -479,11 +479,11 @@ const CHARACTERS = {
   },
 
   // ─────────────────────────────────────────────────────────────
-  // DENIA — dati in attesa della trascrizione ufficiale
+  // DANIA — dati dal .md ufficiale (IT + EN)
   // ─────────────────────────────────────────────────────────────
 
   denia: {
-    name: "Denia",
+    name: "Dania",
     version: "Wuthering Waves · Versione 3.3 · Fase II",
     element: "🔥 Fusion",
     tags: ["Rectifier", "Sub-DPS / Support", "Dual Form"],
@@ -491,143 +491,192 @@ const CHARACTERS = {
     image: "./assets/Denia_Card_zoom.png",
     video: "./assets/video/denia.mp4",
 
-    // TODO — da aggiornare con trascrizione ufficiale EN
-    _transcriptionPending: true,
-
     modes: [
       {
         key: "burst",
-        title: "⚡ Burst",
-        body: "Certe skill applicano <b>Burst Effect</b> (2 stack) ai nemici. Quando i nemici subiscono Burst Effect, Denia guadagna <b>Hollow Void</b> (max 5). Corrosive Field con Hollow Void: danno +100%, consuma 1 stack."
+        title: "⚡ Modalità di Risonanza: Esplosione",
+        body: "Certe abilità applicano <b>2 pile di Effetto Esplosivo</b> ai nemici (ogni abilità può applicare l'effetto a uno stesso bersaglio una volta ogni 2 s). Quando un personaggio in campo lancia una Liberazione di risonanza o un attacco base, Dania ottiene pile di <b>Precisione • Virtuale</b> (fino a 5). Usando un attacco esteso mentre possiede tali pile ne consuma tutte e aumenta il danno del <b>100%</b> per quell'attacco."
       },
       {
         key: "harmony",
-        title: "🎵 Harmony",
-        body: "Certe skill applicano <b>Harmony · Drift</b> ai nemici, aggiornando Harmony · Interference. I compagni che applicano Drift accumulano fino al 50% del max Dissonance Value sui bersagli (1 volta ogni 300s)."
+        title: "🎵 Modalità di Risonanza: Ensemble",
+        body: "Certe abilità applicano <b>1 pila di Ensemble • Sfasamento</b> ai bersagli e rinfrescano la durata di <b>Ensemble • Interferenza</b> (una volta ogni 2 s per abilità). Se un bersaglio ha Ensemble • Interferenza, ogni punto di incremento della Rottura Concerto di Dania aumenta il danno finale contro quel bersaglio dello <b>0,12%</b>, fino al 50% del valore massimo della sua barra di vibrazione (effetto su uno stesso bersaglio una volta ogni 300 s)."
       }
     ],
 
     resources: [
       {
-        name: "Dark Core",
-        desc: "+1 ogni 12s sotto Scorching o Vortex Layer. +1 usando Long Time No See! o Knock Knock. Potenzia Banishment in Phantasm.",
-        max: "Max 5 stack"
+        name: "Nucleo di Scaglia",
+        desc: "Con gli stati Guscio o Desiderio si ottiene un Nucleo ogni 12 s. Usare le abilità di introduzione fornisce un Nucleo aggiuntivo. Potenzia Esilio in Forma di Spettro.",
+        max: "Max 5"
       },
       {
-        name: "Void Particles",
-        desc: "Da Normal Atk/Skill in Stage Form. Dream Bait +25. Long Time No See! +25. Knock Knock +100. In Phantasm Form i Normal Atk li consumano: +50% danno (conta Liberation).",
+        name: "Particelle Virtuali",
+        desc: "In Forma di Scena, gli attacchi base e l'abilità di risonanza (Bolla Bollente) generano Particelle Virtuali. Usare Saluto dopo Molto Tempo! o Sonno Incantato conferisce 25 Particelle; Tocco Delicato ne conferisce 100. In Forma di Spettro i Normal Atk le consumano: +50% danno (conta Liberation), acquisizione Cenere +100%.",
         max: "Max 100 pt"
       },
       {
-        name: "Slag",
-        desc: "Da Normal Atk e Gentle Summon in Phantasm Form. Banishment Stage 2 +40. Richiesto pieno per Curtain's Final Scene · Phantasm.",
+        name: "Cenere",
+        desc: "In Forma di Spettro, gli attacchi base e l'abilità di risonanza Richiamo Soffice generano Cenere. L'esecuzione del secondo colpo di Esilio fornisce 40 Cenere. Richiesta piena per Atto Finale · Forma di Spettro.",
         max: "Max 100 pt"
       }
     ],
 
     forte: [
       {
-        title: "Corrosive Field",
-        body: "Generato dopo Curtain's Final Scene · Phantasm Form, dura 30s. Attacca ogni 4s, tirando i nemici vicini e infliggendo danni Fusion (Liberation). In modalità Burst con Hollow Void disponibile: danno +100%, consuma 1 Hollow Void."
+        title: "Soglia Vorace",
+        body: "Dopo aver lanciato <b>Atto Finale · Forma di Spettro</b>, si crea Soglia Vorace per 30 s. Ogni 4 s attacca i nemici vicini infliggendo danno Fusion (trattato come danno da Liberazione di risonanza). Danno per attivazione (Lv.10): <b>113,61%</b>."
       },
       {
-        title: "Void Particles — Effetto in Phantasm Form",
-        body: "Se Void Particles > 0, i Normal Atk in Phantasm li consumano: il danno conta come <b>Liberation damage</b>, moltiplicatore +50%, acquisizione Slag +100%."
+        title: "Particelle Virtuali — Effetto in Forma di Spettro",
+        body: "In Forma di Spettro, se si possiedono Particelle Virtuali, gli attacchi base consumano tali particelle trasformandosi in <b>danno da Liberazione di risonanza</b> con un bonus del <b>50%</b> e raddoppiando la velocità con cui si ottiene <b>Cenere</b>."
       }
     ],
 
+    normalAttack: {
+      title: "Banchetto dei Sogni Intessuti",
+      stageSetting: [
+        { label: "Attacco base · Forma di Scena (4 colpi)", desc: "Fino a quattro colpi consecutivi che infliggono danno Fusion." },
+        { label: "Attacco potente · Forma di Scena", desc: "Consuma vigore per sferrare un colpo circolare ai nemici vicini infliggendo danno Fusion." },
+        { label: "Attacco aereo · Forma di Scena", desc: "Consuma vigore per scagliarsi verso il basso infliggendo danno Fusion." },
+        { label: "Contrattacco dopo schivata · Forma di Scena", desc: "Dopo una schivata riuscita, premere l'attacco base per contrattaccare infliggendo danno Fusion; premendolo nuovamente entro un intervallo si lancia automaticamente il quarto colpo della combo." }
+      ],
+      spectre: [
+        { label: "Attacco base · Forma di Spettro (4 colpi)", desc: "Fino a quattro colpi consecutivi che infliggono danno Fusion." },
+        { label: "Attacco potente · Forma di Spettro", desc: "Consuma vigore per attirare i nemici vicini infliggendo danno Fusion." },
+        { label: "Attacco aereo · Forma di Spettro", desc: "Consuma vigore per eseguire fino a quattro fendenti aerei infliggendo danno Fusion." },
+        { label: "Attacco in caduta · Forma di Spettro", desc: "Tenere premuto l'attacco base in aria per precipitare infliggendo danno Fusion." },
+        { label: "Contrattacco dopo schivata · Forma di Spettro", desc: "Dopo una schivata riuscita, premere l'attacco base per contrattaccare infliggendo danno Fusion; premendo ancora si lancia il quarto colpo della combo in Forma di Spettro." }
+      ]
+    },
+
     skills: [
       {
-        title: "Stage Form — Simulated Bubble / Dream Bait",
-        tags: [{ label: "Fusion · CD 12s", type: "f" }],
-        body: "<b>Simulated Bubble</b>: tira i nemici, danni Fusion. Se si possiede Dark Core e Void Particles non è al massimo → sostituita da <b>Dream Bait</b> (consuma 1 Dark Core, stesso danno).",
-        values: [["Danno (Lv.10)", "17.42% × 3 + 52.25%"]]
+        title: "Bolla Sonnecchiante — Bolla Bollente · Forma di Scena / Sonno Incantato · Forma di Scena",
+        tags: [{ label: "Fusion · CD 12s · +4 energia", type: "f" }],
+        body: "<b>Bolla Bollente · Forma di Scena</b>: attira i nemici vicini infliggendo danno Fusion.<br><b>Sonno Incantato · Forma di Scena</b>: quando Dania possiede almeno un <b>Nucleo di Scaglia</b> e le sue <b>Particelle Virtuali</b> non sono al massimo, Bolla Bollente si trasforma in questa abilità. L'attivazione consuma un Nucleo di Scaglia, infligge danno Fusion e genera Particelle Virtuali.",
+        values: [
+          ["Bolla Bollente / Sonno Incantato (Scena) (Lv.10)", "17,42% ×3 + 52,25%"]
+        ]
       },
       {
-        title: "Phantasm Form — Gentle Summon / Banishment",
-        tags: [{ label: "CD 4s (Banish)", type: "f" }],
-        body: "<b>Gentle Summon</b>: tira i nemici, danni Fusion. Se si possiede Dark Core → sostituita da <b>Banishment</b>: 2 colpi, il 2° consuma tutti i Dark Core. Moltiplicatore aggiuntivo per Dark Core consumati.",
+        title: "Bolla Sonnecchiante — Richiamo Soffice · Forma di Spettro / Esilio · Forma di Spettro",
+        tags: [{ label: "Fusion · CD 12s · +4 energia", type: "f" }],
+        body: "<b>Richiamo Soffice · Forma di Spettro</b>: attira i nemici vicini infliggendo danno Fusion.<br><b>Esilio · Forma di Spettro</b>: quando Dania possiede Nuclei di Scaglia, Richiamo Soffice diventa questa abilità. Effettua fino a due attacchi consecutivi; il secondo consuma tutti i Nuclei di Scaglia, attira i nemici e infligge danno Fusion. Il moltiplicatore del secondo colpo aumenta del 50/200/350/500/650% se vengono consumati rispettivamente 1/2/3/4/5 Nuclei. Questo attacco è considerato danno da Liberazione di risonanza.",
         values: [
-          ["Banishment Stage 1", "34.68% × 3"],
-          ["Banishment Stage 2", "112.01%"],
-          ["+50% / +200% / +350% / +500% / +650%", "1 / 2 / 3 / 4 / 5 core"]
+          ["Richiamo Soffice (Spettro) (Lv.10)", "31,10% + 14,52% ×5"],
+          ["Esilio 1° colpo (Lv.10)", "34,68% ×3"],
+          ["Esilio 2° colpo (Lv.10)", "112,01%"],
+          ["Bonus 2° colpo per Nuclei (1/2/3/4/5)", "+50% / +200% / +350% / +500% / +650%"]
         ]
       }
     ],
 
     liberation: [
       {
-        title: "Curtain's Final Scene · Stage Form",
-        tags: [{ label: "125 en.", type: "f" }, { label: "Scorching 8s", type: "b" }],
-        body: "Danni Fusion. Guadagna <b>Scorching</b> (ATK +30%, rimuove Vortex Layer). Passa a Phantasm Form. Usabile in volo.",
+        title: "Atto Finale · Forma di Scena",
+        tags: [{ label: "125 en. · CD 20s", type: "f" }, { label: "Guscio 8s", type: "b" }],
+        body: "Infligge danno Fusion. Dopo il lancio, Dania ottiene <b>Guscio</b> per 8 s e passa automaticamente alla Forma di Spettro. Può essere usata anche in aria.<br><b>Guscio</b>: aumenta l'ATT del 30%. Ottenere questo effetto rimuove Desiderio.",
         values: [
-          ["Danno (Lv.10)", "397.62%"],
-          ["Energia recuperata", "+20"]
+          ["Danno (Lv.10)", "397,62%"]
         ]
       },
       {
-        title: "Curtain's Final Scene · Phantasm Form",
-        tags: [{ label: "Liberation ×4", type: "l" }, { label: "Vortex Layer 30s", type: "h" }],
-        body: "Disponibile quando <b>Slag è pieno</b>. Consuma tutto Slag e Void Particles. Danni Fusion ×4. Guadagna <b>Vortex Layer</b> (+1 Void Particle/s, rimuove Scorching). Genera <b>Corrosive Field</b> (30s). Passa a Stage Form.",
+        title: "Atto Finale · Forma di Spettro",
+        tags: [{ label: "125 en. · CD 20s", type: "l" }, { label: "Desiderio 30s", type: "h" }],
+        body: "Quando la barra <b>Splendore</b> (Cenere) è piena, Dania può consumare vigore e Splendore per attivare questa abilità. Infligge danno Fusion e concede lo stato <b>Desiderio</b> per 30 s, poi torna alla Forma di Scena. Può essere usata in aria.<br><b>Desiderio</b>: rigenera una Particella Virtuale al secondo. Ottenere questo effetto rimuove Guscio.",
         values: [
-          ["Danno (Lv.10)", "198.81% × 4"],
-          ["Corrosive Field ogni hit", "113.61%"]
+          ["Danno (Lv.10)", "198,81% ×4"]
         ]
       }
     ],
 
     variation: [
       {
-        title: "Long Time No See! (Stage) · Knock Knock (Phantasm)",
-        tags: [{ label: "+10 energia", type: "g" }],
-        body: "<b>Long Time No See!</b>: danni Fusion, +10 energia, +1 Dark Core, +25 Void Particles.<br><b>Knock Knock</b>: danni Fusion ×3, guadagna Scorching 8s, +1 Dark Core, +100 Void Particles.",
+        title: "Visita Cortese — Saluto dopo Molto Tempo! (Scena) / Tocco Delicato (Spettro)",
+        tags: [{ label: "+10 energia · +1 Nucleo di Scaglia", type: "g" }],
+        body: "<b>Saluto dopo Molto Tempo!</b>: usata in Forma di Scena per infliggere danno Fusion. Conferisce 25 Particelle Virtuali e +1 Nucleo di Scaglia.<br><b>Tocco Delicato</b>: usata in Forma di Spettro per infliggere danno Fusion e ottenere il Guscio per 8 s. Conferisce 100 Particelle Virtuali e +1 Nucleo di Scaglia.",
         values: [
-          ["Long Time No See! (Lv.10)", "104.62%"],
-          ["Knock Knock (Lv.10)", "51.74% × 3"]
+          ["Saluto dopo Molto Tempo! (Lv.10)", "104,62%"],
+          ["Tocco Delicato (Lv.10)", "51,74% ×3"]
         ]
       }
     ],
 
-    inherent: [], // da completare con trascrizione
+    inherent: [
+      {
+        title: "Trama Impeccabile — Modalità di Risonanza: Esplosione",
+        body: "Le seguenti abilità applicano due pile di <b>Effetto Esplosivo</b> (ogni abilità una volta ogni 2 s per bersaglio):<br>· Abilità di introduzione <em>Saluto dopo Molto Tempo!</em> e <em>Tocco Delicato</em><br>· Liberazioni di risonanza <em>Atto Finale</em> (entrambe le forme) e Soglia Vorace<br>· Bolla Bollente (Scena) 1° e 2° colpo<br>· Attacco aereo (Spettro) 3° e 4° colpo<br>· Attacco base (Scena) 3° e 4° colpo<br>· Attacco base (Spettro) 3° e 4° colpo<br>Quando un personaggio in campo lancia una Liberazione di risonanza o un attacco base, Dania ottiene pile di <b>Precisione • Virtuale</b> (max 5). Usando un attacco esteso mentre possiede tali pile ne consuma tutte e aumenta il danno del <b>100%</b> per quell'attacco."
+      },
+      {
+        title: "Trama Impeccabile — Modalità di Risonanza: Ensemble",
+        body: "Le seguenti abilità applicano una pila di <b>Ensemble • Sfasamento</b> ai bersagli e rinfrescano la durata di <b>Ensemble • Interferenza</b> (una volta ogni 2 s per abilità):<br>· Abilità di introduzione <em>Saluto dopo Molto Tempo!</em> e <em>Tocco Delicato</em><br>· Liberazioni di risonanza <em>Atto Finale</em> (entrambe le forme) e Soglia Vorace<br>· Attacco base (Scena) 3° e 4° colpo<br>· Attacco base (Spettro) 3° e 4° colpo<br>Se un bersaglio ha Ensemble • Interferenza, ogni punto di incremento della Rottura Concerto di Dania aumenta il danno finale contro quel bersaglio dello <b>0,12%</b>, fino al 50% del valore massimo della sua barra di vibrazione (effetto una volta ogni 300 s)."
+      }
+    ],
 
-    glossary: [], // da completare con trascrizione
+    glossary: [
+      {
+        term: "Guscio",
+        def: "Aumenta l'ATT del 30%. Ottenere questo effetto rimuove Desiderio."
+      },
+      {
+        term: "Desiderio",
+        def: "Rigenera una Particella Virtuale al secondo. Ottenere questo effetto rimuove Guscio."
+      },
+      {
+        term: "Nucleo di Scaglia",
+        def: "Max 5. Si ottiene 1 ogni 12 s sotto Guscio o Desiderio, +1 usando le abilità di introduzione. Potenzia il 2° colpo di Esilio: +50/200/350/500/650% con 1/2/3/4/5 Nuclei consumati."
+      },
+      {
+        term: "Effetto Esplosivo",
+        def: "Applicato da certe abilità in Modalità Esplosione (2 pile per abilità, una volta ogni 2 s per bersaglio). Aumenta il danno che il bersaglio riceve."
+      },
+      {
+        term: "Ensemble • Sfasamento / Interferenza",
+        def: "In Modalità Ensemble: Sfasamento applicato da certe abilità, rinfresca Interferenza. Con Interferenza attiva: Rottura Concerto di Dania aumenta il danno finale del 0,12% per punto di amplificazione (max 50% della barra di vibrazione, una volta ogni 300 s per bersaglio)."
+      },
+      {
+        term: "Precisione • Virtuale",
+        def: "Ottenuta quando un personaggio in campo usa Liberazione di risonanza o attacco base (max 5 pile). Usare un attacco esteso mentre si possiedono queste pile le consuma tutte e aumenta il danno del 100%."
+      }
+    ],
 
     intro_outro: [
-      "Intro Burst: personaggi in zona <b>+40%</b> danno Burst Effect per 30s",
-      "Intro Harmony: prossimo personaggio <b>+15%→40%</b> tutti i danni per 16s",
-      "Outro: Timed Obliteration (Dissonance Break) — in Harmony: +0.12% danno finale per stack Interference × punto Dissonance Break amp"
+      "Abilità di uscita — <b>Menzogna Incompiuta</b> in Modalità di Esplosione: aumenta del 40% i danni dell'Effetto Esplosivo subiti dai nemici colpiti dai personaggi in campo per 30 s.",
+      "Abilità di uscita — <b>Menzogna Incompiuta</b> in Modalità di Ensemble: garantisce al prossimo personaggio che entra in campo un bonus del 15% al danno totale per 16 s; quando quel personaggio applica Ensemble • Sfasamento, il bonus sale al 40%. Cambiare personaggio termina l'effetto in anticipo.",
+      "Rottura Concerto — <b>Fine del Tempo</b>: in Modalità di Ensemble applica anche Ensemble • Sfasamento e rinfresca Ensemble • Interferenza. Ogni pila di Ensemble • Sfasamento aumenta il danno finale di Dania verso quel bersaglio dello 0,12% per punto di amplificazione. Con Dania in squadra, i nemici possono accumulare un livello extra di Ensemble • Interferenza."
     ],
 
     sequences: [
       {
         num: "S1",
-        name: "The Sky Has Nothing",
-        body: "Crit DMG +30%. Dream Bait e Banishment: immune agli interrupt. In Stage Form all'inizio: Vortex Layer 30s. In Phantasm: Scorching 8s."
+        name: "Cielo — Vuoto",
+        body: "Danno da Colpo Critico +30%. Dania è insensibile alle interruzioni mentre lancia Sonno Incantato o Esilio. Entrando in battaglia in Forma di Scena ottiene Desiderio per 30 s; entrando in Forma di Spettro ottiene Guscio per 30 s."
       },
       {
         num: "S2",
-        name: "Why Comfort Me",
-        body: "Burst: chi applica Burst Effect +50% Fusion DMG (15s). Harmony: chi applica Drift +20 Dissonance Break amp (15s), target accumula fino al 100% Dissonance Value. Banishment +40%."
+        name: "Perché Darmi Consolazione",
+        body: "In Modalità di Esplosione, i nemici colpiti dagli alleati subiscono il 50% di danni dell'Effetto Esplosivo in più per 15 s. In Modalità di Ensemble, il bonus al danno totale dato dall'applicazione di Ensemble • Sfasamento raddoppia."
       },
       {
         num: "S3",
-        name: "The Alder Races Through Night",
-        body: "Curtain's Phantasm +80%. Dark Core ogni 6s. Vortex Layer: +4 Void Particles/s. Con Scorching: Liberation Phantasm recupera +30 Concerto Energy. Con Dark Core>0: Normal Stage 4 e Simulated Bubble +300%, contano come Liberation."
+        name: "Ontano Rosso tra Notte e Vento",
+        body: "Atto Finale · Spettro infligge l'80% di danno in più. L'intervallo per ottenere un Nucleo di Scaglia si riduce a 6 s. In Forma di Scena, quando gli alleati raccolgono Particelle Virtuali, il loro limite massimo aumenta di 20 per 15 s; in Forma di Spettro, la Cenere ottenuta dai raccolti è raddoppiata."
       },
       {
         num: "S4",
-        name: "From Afar, Back to Afar",
-        body: "Corrosive Field attacca ogni 3s invece di 4s."
+        name: "Da Lontano, Di Ritorno al Lontano",
+        body: "L'intervallo degli attacchi di Soglia Vorace si riduce a 3 s."
       },
       {
         num: "S5",
-        name: "If Lies Could Mend the Heart",
-        body: "Curtain's Final Scene · Stage Form: danno +100%."
+        name: "Se le Menzogne Potessero Ricucire un Cuore",
+        body: "Atto Finale · Scena infligge il 100% di danni in più."
       },
       {
         num: "S6",
-        name: "May You Find the Sun in Silence",
-        body: "Burst: Corrosive Field conta come Burst Effect; colpendo applica Corroded (6s) — danno da crit Burst +40%. Harmony: Corrosive Field +120%; Dissonance Break su nemici con Drift aggiunge 1 stack Interference (ogni 3s)."
+        name: "Nel Silenzio, Che tu Possa Trovare il Sole",
+        body: "In Modalità di Esplosione, ogni abilità può applicare quattro pile aggiuntive di Effetto Esplosivo una volta ogni 4 s. In Modalità di Ensemble, ogni applicazione di Ensemble • Sfasamento prolunga la durata di Guscio e Desiderio; se a farlo è Dania, i bersagli subiscono il 40% in più di danni dell'Effetto Esplosivo."
       }
     ]
   }

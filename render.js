@@ -172,6 +172,7 @@ function buildNormalAttack(na) {
     return box;
   };
 
+  //sec.appendChild(buildGroup(na.normalForm, 'Normal Form'));
   sec.appendChild(buildGroup(na.presentSelf, 'Present Self'));
   sec.appendChild(buildGroup(na.foreclaimedSelf, 'Foreclaimed Self'));
   return sec;

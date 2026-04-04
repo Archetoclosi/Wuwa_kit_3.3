@@ -1,17 +1,3 @@
-# Trascrizione Testi Video - Kit Hiyuki
-
-## 00:00 - Terminal (Menu Profilo)
-- **User ID:** 10001
-- **Stay tuned**
-- **Maykt**
-- **Edit Bio**
-- **Birthday**
-- **SOL3 Phase:** Rank 8
-- **Union Level:** 80
-- **Union EXP:** 0 / 999999
-- **Icone Menu:** Events, Store, Pioneer Podcast, Convene, Resonators, Team, Data Bank, Data Bank [x2], WavesLine, Guidebook, Synthesis, Expedition Motorbike.
-
----
 
 ## 00:02 - Overview (Panoramica Personaggio)
 - **Hiyuki**
