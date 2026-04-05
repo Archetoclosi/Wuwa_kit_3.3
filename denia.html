@@ -22,10 +22,20 @@
 
 <div class="wrap" id="root"></div>
 
-<script src="data.js"></script>
 <script src="render.js"></script>
+<script src="data-loader.js"></script>
 <script>
-  renderDenia(document.getElementById('root'), CHARACTERS.denia);
+  (async function() {
+    const root = document.getElementById('root');
+    showLoading(root, 'Dania');
+    try {
+      const data = await loadCharacterFromSheet('denia');
+      root.innerHTML = '';
+      renderDenia(root, data);
+    } catch (err) {
+      showError(root, 'Dania', err);
+    }
+  })();
 </script>
 </body>
 </html>

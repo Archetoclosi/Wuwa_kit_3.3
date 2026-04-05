@@ -21,6 +21,20 @@ function vtable(rows) {
   ).join('') + '</table>';
 }
 
+// ── Helper condiviso: riquadro valori numerici ──────────────────
+// Accetta sia array [[label, val], …] sia null/undefined (no-op).
+function buildValuesBox(values) {
+  if (!values || !values.length) return null;
+  const vbox = div('skill-values-box');
+  values.forEach(([k, v]) => {
+    const row = div('skill-value-row');
+    row.appendChild(el('span', 'skill-value-label', k));
+    row.appendChild(el('span', 'skill-value-num', v));
+    vbox.appendChild(row);
+  });
+  return vbox;
+}
+
 function sectionLabel(text) {
   return el('div', 'section-label', text);
 }
@@ -129,14 +143,17 @@ function buildWeapon(weapon, label) {
 }
 
 function buildResources(resources, label) {
+  if (!resources || !resources.length) return null;
   const sec = div('section');
   sec.appendChild(sectionLabel(label || 'Risorse'));
   const grid = div('res-grid');
   resources.forEach(r => {
-    const card = div('res-card');
+    const card = div('res-card skill-card');
     card.appendChild(el('div', 'res-name', r.name));
-    card.appendChild(el('div', 'res-desc', r.desc));
-    card.appendChild(el('div', 'res-max', r.max));
+    if (r.desc) card.appendChild(el('div', 'res-desc skill-desc', r.desc));
+    if (r.max)  card.appendChild(el('div', 'res-max', r.max));
+    const vbox = buildValuesBox(r.values);
+    if (vbox) card.appendChild(vbox);
     grid.appendChild(card);
   });
   sec.appendChild(grid);
@@ -147,9 +164,11 @@ function buildForte(forte, label) {
   const sec = div('section');
   sec.appendChild(sectionLabel(label || 'Forte Circuit — Meccanica principale'));
   forte.forEach(f => {
-    const box = div('forte-box');
+    const box = div('forte-box skill-card');
     box.appendChild(el('div', 'forte-title', f.title));
-    box.appendChild(el('div', 'forte-body', f.body));
+    if (f.body) box.appendChild(el('div', 'forte-body skill-desc', f.body));
+    const vbox = buildValuesBox(f.values);
+    if (vbox) box.appendChild(vbox);
     sec.appendChild(box);
   });
   return sec;
@@ -161,20 +180,31 @@ function buildNormalAttack(na) {
   sec.appendChild(sectionLabel(`Normal Attack — ${na.title}`));
 
   const buildGroup = (list, title) => {
+    if (!list || !list.length) return null;
     const box = div('na-group');
     box.appendChild(el('div', 'na-group-title', title));
     list.forEach(item => {
-      const row = div('na-row');
-      row.appendChild(el('div', 'na-row-label', item.label));
-      row.appendChild(el('div', 'na-row-desc', item.desc));
-      box.appendChild(row);
+      const card = div('na-card skill-card');
+      card.appendChild(el('div', 'na-row-label', item.label));
+      if (item.desc) card.appendChild(el('div', 'na-row-desc skill-desc', item.desc));
+      const vbox = buildValuesBox(item.values);
+      if (vbox) card.appendChild(vbox);
+      box.appendChild(card);
     });
     return box;
   };
 
-  //sec.appendChild(buildGroup(na.normalForm, 'Normal Form'));
-  sec.appendChild(buildGroup(na.presentSelf, 'Present Self'));
-  sec.appendChild(buildGroup(na.foreclaimedSelf, 'Foreclaimed Self'));
+  // Supporta sia la struttura vecchia (presentSelf/foreclaimedSelf) sia quella nuova (normalForm)
+  const groups = [
+    [na.normalForm,      'Normal Form'],
+    [na.presentSelf,     'Present Self'],
+    [na.foreclaimedSelf, 'Foreclaimed Self / Pre-seeking']
+  ];
+  groups.forEach(([list, title]) => {
+    const node = buildGroup(list, title);
+    if (node) sec.appendChild(node);
+  });
+
   return sec;
 }
 
@@ -182,13 +212,14 @@ function buildSkillSection(skills, label) {
   const sec = div('section');
   sec.appendChild(sectionLabel(label));
   skills.forEach(s => {
-    const card = div('glass');
+    const card = div('glass skill-card');
     const head = div('card-head');
     head.appendChild(el('div', 'card-title', s.title));
     head.innerHTML += tags(s.tags);
     card.appendChild(head);
-    card.appendChild(el('div', 'card-body', s.body));
-    card.innerHTML += vtable(s.values);
+    if (s.body) card.appendChild(el('div', 'card-body skill-desc', s.body));
+    const vbox = buildValuesBox(s.values);
+    if (vbox) card.appendChild(vbox);
     sec.appendChild(card);
   });
   return sec;
@@ -238,10 +269,12 @@ function buildSequences(seqs, label) {
   sec.appendChild(sectionLabel(label || 'Sequenze Risonanza'));
   const grid = div('seq-grid');
   seqs.forEach(s => {
-    const card = div('seq-card');
+    const card = div('seq-card skill-card');
     card.appendChild(el('div', 'seq-num', s.num));
     card.appendChild(el('div', 'seq-name', s.name));
-    card.appendChild(el('div', 'seq-body', s.body));
+    if (s.body) card.appendChild(el('div', 'seq-body skill-desc', s.body));
+    const vbox = buildValuesBox(s.values);
+    if (vbox) card.appendChild(vbox);
     grid.appendChild(card);
   });
   sec.appendChild(grid);
@@ -342,13 +375,14 @@ function renderHiyuki(root, c, lang) {
   if (c.frostRite) {
     const sec = div('section');
     sec.appendChild(sectionLabel(L.frostRite));
-    const card = div('glass');
+    const card = div('glass skill-card');
     const head = div('card-head');
     head.appendChild(el('div', 'card-title', c.frostRite.title));
     head.innerHTML += tags(c.frostRite.tags);
     card.appendChild(head);
-    card.appendChild(el('div', 'card-body', c.frostRite.body));
-    card.innerHTML += vtable(c.frostRite.values);
+    card.appendChild(el('div', 'card-body skill-desc', c.frostRite.body));
+    const vbox = buildValuesBox(c.frostRite.values);
+    if (vbox) card.appendChild(vbox);
     sec.appendChild(card);
     root.appendChild(sec);
   }

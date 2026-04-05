@@ -23,21 +23,33 @@
 
 <div class="wrap" id="root"></div>
 
-<script src="data.js"></script>
 <script src="render.js"></script>
+<script src="data-loader.js"></script>
 <script>
   var _lang = 'it';
-  function rerenderHiyuki() {
-    var root = document.getElementById('root');
+  var _cachedData = null;
+
+  async function rerenderHiyuki() {
+    const root = document.getElementById('root');
+    if (!_cachedData) {
+      showLoading(root, 'Hiyuki');
+      try {
+        _cachedData = await loadCharacterFromSheet('feixue');
+      } catch (err) {
+        showError(root, 'Hiyuki', err);
+        return;
+      }
+    }
     root.innerHTML = '';
-    var data = _lang === 'en' ? CHARACTERS.hiyuki_en : CHARACTERS.hiyuki;
-    renderHiyuki(root, data, _lang);
+    renderHiyuki(root, _cachedData, _lang);
   }
+
   document.getElementById('lang-btn').addEventListener('click', function() {
     _lang = _lang === 'it' ? 'en' : 'it';
     this.textContent = _lang === 'it' ? '🇮🇹 IT' : '🇬🇧 EN';
     rerenderHiyuki();
   });
+
   rerenderHiyuki();
 </script>
 </body>
