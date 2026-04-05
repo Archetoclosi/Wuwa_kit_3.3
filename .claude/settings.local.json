@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(grep -r \"import\\\\|require\\\\|export\" /c/Users/Blu/Desktop/Wuwa_kit_3.3/*.js /c/Users/Blu/Desktop/Wuwa_kit_3.3/*.html)",
+      "Bash(grep:*)"
+    ]
+  }
+}

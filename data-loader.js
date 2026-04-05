@@ -19,8 +19,8 @@ const DATA_STATIC = {
     element: "🔥 Fusion",
     tags: ["Rectifier", "Main DPS", "Dual Form"],
     quote: "\"Ogni spettacolo ha la sua fine — ma il ricordo rimane, tra chi era presente.\"",
-    image: "./assets/Dania_Card_zoom.png",
-    video: "./assets/video/dania.mp4",
+    image: "./assets/Denia_Card_zoom.png",
+    video: "./assets/video/denia.mp4",
     stats: {
       hp: "—", atk: "—", def: "—",
       energyRegen: "100.0%", critRate: "5.0%", critDmg: "150.0%"

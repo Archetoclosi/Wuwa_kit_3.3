@@ -14,13 +14,6 @@ function tags(list) {
   ).join('') + '</div>';
 }
 
-function vtable(rows) {
-  if (!rows || !rows.length) return '';
-  return '<table class="vtable">' + rows.map(r =>
-    `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`
-  ).join('') + '</table>';
-}
-
 // ── Helper condiviso: riquadro valori numerici ──────────────────
 // Accetta sia array [[label, val], …] sia null/undefined (no-op).
 function buildValuesBox(values) {

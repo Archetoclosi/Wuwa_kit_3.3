@@ -7,9 +7,10 @@
   --glass-bg: rgba(35, 12, 5, 0.55);
   --glass-border: rgba(240, 140, 80, 0.2);
   --glass-hover: rgba(70, 22, 8, 0.65);
-  --text-primary: #fff0e8;
-  --text-secondary: #c8907a;
-  --text-muted: #8a5040;
+  --text-primary: #fff4ee;
+  --text-secondary: #daa88a;   /* was #c8907a — lifted for legibility */
+  --text-muted: #a06848;       /* was #8a5040 */
+  --reading-font: 'EB Garamond', Georgia, 'Times New Roman', serif;
 }
 
 html { scroll-behavior: smooth; }
@@ -20,8 +21,10 @@ body {
   color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
+  font-size: 16px;
 }
 
+/* ─── Background ─────────────────────────────────────────────── */
 .bg {
   position: fixed; inset: 0; z-index: 0;
   background:
@@ -43,17 +46,19 @@ body {
 }
 @keyframes ember { 0% { opacity: 0.5; } 100% { opacity: 1; } }
 
+/* ─── Layout ─────────────────────────────────────────────────── */
 .wrap { position: relative; max-width: 960px; margin: 0 auto; padding: 0 1.5rem 4rem; }
 
+/* ─── Nav ────────────────────────────────────────────────────── */
 .nav-bar {
   position: sticky; top: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0.75rem 1.5rem;
-  background: rgba(15, 4, 1, 0.75);
+  background: rgba(15, 4, 1, 0.82);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--glass-border);
 }
-.nav-logo { font-family: 'Cinzel', serif; font-size: 13px; color: var(--text-muted); letter-spacing: 0.15em; }
+.nav-logo { font-family: 'Cinzel', serif; font-size: 12px; color: var(--text-muted); letter-spacing: 0.18em; }
 .nav-switch { display: flex; gap: 8px; }
 .nav-btn {
   font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
@@ -67,6 +72,7 @@ body {
 .nav-btn.active { background: rgba(255, 120, 50, 0.15); color: var(--accent); border-color: rgba(255, 120, 50, 0.45); }
 .lang-btn { background: rgba(160, 100, 255, 0.1); color: var(--c1); border-color: rgba(160, 100, 255, 0.3); margin-left: 6px; }
 
+/* ─── Hero ───────────────────────────────────────────────────── */
 .hero {
   display: grid; grid-template-columns: 340px 1fr;
   gap: 2rem; align-items: end;
@@ -91,9 +97,10 @@ body {
 }
 .hero-tag.element { background: rgba(255, 100, 30, 0.12); border-color: rgba(255, 100, 30, 0.35); }
 .hero-quote {
-  font-size: 14px; font-weight: 300; font-style: italic;
-  color: var(--text-secondary); line-height: 1.7; max-width: 440px;
-  border-left: 2px solid rgba(255, 120, 50, 0.3); padding-left: 1rem;
+  font-family: var(--reading-font);
+  font-size: 16px; font-weight: 400; font-style: italic;
+  color: var(--text-secondary); line-height: 1.8; max-width: 440px;
+  border-left: 2px solid rgba(255, 120, 50, 0.38); padding-left: 1rem;
 }
 .hero-img-wrap { position: relative; display: flex; justify-content: center; align-items: flex-end; overflow-x: visible; overflow-y: clip; }
 .hero-img-glow {
@@ -110,10 +117,8 @@ body {
 }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 video.hero-img {
-  mix-blend-mode: screen;
-  filter: none;
-  transform: scale(2.5);
-  transform-origin: top center;
+  mix-blend-mode: screen; filter: none;
+  transform: scale(2.5); transform-origin: top center;
   animation: none;
 }
 .hero-img-fallback {
@@ -123,27 +128,53 @@ video.hero-img {
   border-radius: 16px; backdrop-filter: blur(10px); gap: 12px; color: var(--text-muted);
 }
 
+/* ─── Section labels ─────────────────────────────────────────── */
 .section { margin-bottom: 2rem; }
 .section-label {
-  font-family: 'Cinzel', serif; font-size: 10px; font-weight: 600;
-  letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted);
-  margin-bottom: 0.75rem; display: flex; align-items: center; gap: 10px;
+  font-family: 'Cinzel', serif; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted);
+  margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;
 }
-.section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, rgba(255, 120, 50, 0.2), transparent); }
+.section-label::before {
+  content: '◈';
+  font-size: 8px; color: var(--accent);
+  opacity: 0.85; flex-shrink: 0;
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(to right, rgba(255, 120, 50, 0.22), transparent);
+}
 
+/* ─── Glass cards ────────────────────────────────────────────── */
 .glass {
   background: var(--glass-bg); border: 1px solid var(--glass-border);
   border-radius: 14px; backdrop-filter: blur(14px);
-  padding: 1rem 1.25rem; margin-bottom: 10px;
-  transition: border-color 0.2s, background 0.2s;
+  padding: 1.25rem 1.5rem; margin-bottom: 10px;
+  transition: border-color 0.25s, background 0.25s;
 }
-.glass:hover { border-color: rgba(255, 140, 60, 0.35); background: var(--glass-hover); }
+.glass:hover { border-color: rgba(255, 140, 60, 0.38); background: var(--glass-hover); }
 
-.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 7px; }
-.card-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-.card-body { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
-.card-body b { color: var(--c1); font-weight: 600; }
+.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.card-title { font-size: 15px; font-weight: 600; color: var(--text-primary); }
 
+/* ─── Reading text — main readability upgrade ────────────────── */
+.card-body,
+.forte-body,
+.inherent-body,
+.seq-body,
+.na-row-desc,
+.res-desc,
+.glossary-def {
+  font-family: var(--reading-font);
+  font-size: 16px;        /* EB Garamond reads naturally larger */
+  line-height: 1.88;
+  color: var(--text-secondary);
+}
+.card-body b, .forte-body b, .inherent-body b, .seq-body b { color: var(--c1); font-weight: 600; }
+
+.na-row-desc, .glossary-def, .res-desc { font-size: 15px; line-height: 1.75; }
+
+/* ─── Tags ───────────────────────────────────────────────────── */
 .tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .tag { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; white-space: nowrap; flex-shrink: 0; backdrop-filter: blur(6px); }
 .tag-f { background: rgba(180, 60, 20, 0.35); color: #f5c0a0; border: 1px solid rgba(255,120,60,0.2); }
@@ -152,139 +183,183 @@ video.hero-img {
 .tag-h { background: rgba(20, 130, 80, 0.35); color: #80e8b0; border: 1px solid rgba(50,200,100,0.2); }
 .tag-g { background: rgba(30,150,80,0.25); color: #7de8a8; border: 1px solid rgba(50,200,100,0.2); }
 
-/* legacy vtable */
-.vtable { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
-.vtable td { padding: 4px 0; color: var(--text-muted); border-bottom: 1px solid rgba(255,120,60,0.08); }
-.vtable td:last-child { text-align: right; color: var(--c1); font-variant-numeric: tabular-nums; font-weight: 500; }
-.vtable tr:last-child td { border-bottom: none; }
-
-/* ── Skill card layout ── */
+/* ─── Skill card layout ──────────────────────────────────────── */
 .skill-card { display: flex; flex-direction: column; }
-.skill-desc { border-left: 2px solid rgba(255, 120, 50, 0.3); padding-left: 0.75rem; margin-top: 2px; }
+.skill-desc { border-left: 2px solid rgba(255, 120, 50, 0.35); padding-left: 0.85rem; margin-top: 4px; }
 .skill-values-box {
   display: flex; flex-direction: column;
-  margin-top: 12px;
+  margin-top: 14px;
   background: rgba(20, 6, 2, 0.55);
   border: 1px solid rgba(255, 120, 50, 0.18);
-  border-radius: 10px;
-  overflow: hidden;
+  border-radius: 10px; overflow: hidden;
 }
 .skill-value-row {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 7px 12px;
-  border-bottom: 1px solid rgba(255, 120, 50, 0.08);
-  gap: 12px;
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(255, 120, 50, 0.08); gap: 12px;
 }
 .skill-value-row:last-child { border-bottom: none; }
 .skill-value-label {
-  font-size: 11.5px; color: var(--text-muted);
+  font-size: 12px; color: var(--text-muted);
   letter-spacing: 0.03em; flex: 1;
 }
 .skill-value-num {
-  font-size: 12.5px; font-weight: 600; color: var(--c1);
+  font-size: 13px; font-weight: 600; color: var(--c1);
   font-variant-numeric: tabular-nums;
   text-align: right; white-space: nowrap;
-  background: rgba(255, 120, 50, 0.08);
-  padding: 2px 8px; border-radius: 6px;
+  background: rgba(255, 120, 50, 0.09);
+  padding: 2px 9px; border-radius: 6px;
 }
 
-/* Normal attack card */
+/* ─── Normal attack ──────────────────────────────────────────── */
 .na-card {
-  padding: 10px 0 10px 0;
+  padding: 12px 0;
   border-bottom: 1px solid rgba(255, 120, 50, 0.07);
 }
 .na-card:last-child { border-bottom: none; }
-.na-card .na-row-label { margin-bottom: 4px; }
+.na-card .na-row-label { margin-bottom: 5px; }
 .na-card .skill-values-box { margin-top: 8px; }
 
-.res-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
-.res-card { background: rgba(50, 15, 5, 0.6); border: 1px solid rgba(255, 120, 60, 0.15); border-radius: 12px; padding: 12px 14px; backdrop-filter: blur(10px); }
-.res-name { font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 4px; }
-.res-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
-.res-max { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.na-group { margin-bottom: 14px; }
+.na-group-title {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: var(--accent);
+  margin-bottom: 10px; padding: 5px 12px;
+  background: rgba(255, 120, 50, 0.1); border-radius: 6px; display: inline-block;
+}
+.na-row { display: grid; grid-template-columns: 200px 1fr; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(255, 120, 60, 0.07); }
+.na-row:last-child { border-bottom: none; }
+.na-row-label { font-size: 13px; font-weight: 600; color: var(--c1); line-height: 1.5; }
 
+/* ─── Resonance resources ────────────────────────────────────── */
+.res-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.res-card {
+  background: rgba(50, 15, 5, 0.6); border: 1px solid rgba(255, 120, 60, 0.15);
+  border-radius: 12px; padding: 14px 16px; backdrop-filter: blur(10px);
+}
+.res-name { font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 6px; }
+.res-max { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+
+/* ─── Forte box ──────────────────────────────────────────────── */
+.forte-box {
+  background: linear-gradient(135deg, rgba(100, 35, 10, 0.35) 0%, rgba(50, 15, 5, 0.45) 100%);
+  border: 1px solid rgba(255, 140, 60, 0.22); border-radius: 14px;
+  padding: 1.5rem 1.75rem; backdrop-filter: blur(14px); margin-bottom: 10px;
+  border-left: 3px solid rgba(248, 168, 122, 0.55);
+}
+.forte-title { font-family: 'Cinzel', serif; font-size: 13.5px; font-weight: 600; letter-spacing: 0.06em; color: var(--c1); margin-bottom: 10px; }
+
+/* ─── Resonance mode cards (Denia-specific) ──────────────────── */
 .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-.mode-card { padding: 14px 16px; border-radius: 14px; backdrop-filter: blur(10px); border: 1px solid; }
-.mode-burst { background: rgba(100, 60, 5, 0.4); border-color: rgba(255, 180, 40, 0.25); }
-.mode-harmony { background: rgba(5, 80, 45, 0.3); border-color: rgba(50, 200, 100, 0.2); }
-.mode-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.mode-card {
+  padding: 16px 18px; border-radius: 14px; backdrop-filter: blur(10px);
+  border: 1px solid;
+}
+.mode-burst { background: rgba(100, 60, 5, 0.4); border-color: rgba(255, 180, 40, 0.28); }
+.mode-harmony { background: rgba(5, 80, 45, 0.3); border-color: rgba(50, 200, 100, 0.22); }
+.mode-title { font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; margin-bottom: 8px; }
 .mode-burst .mode-title { color: #f5d080; }
 .mode-harmony .mode-title { color: #80e8b0; }
-.mode-body { font-size: 12px; line-height: 1.65; }
+.mode-body { font-family: var(--reading-font); font-size: 15px; line-height: 1.82; }
 .mode-burst .mode-body { color: #c8a050; }
 .mode-harmony .mode-body { color: #50c880; }
 .mode-burst .mode-body b { color: #f5d080; }
 .mode-harmony .mode-body b { color: #80e8b0; }
 
-.forte-box {
-  background: linear-gradient(135deg, rgba(100, 35, 10, 0.35) 0%, rgba(50, 15, 5, 0.45) 100%);
-  border: 1px solid rgba(255, 140, 60, 0.22); border-radius: 14px;
-  padding: 1.25rem 1.5rem; backdrop-filter: blur(14px); margin-bottom: 10px;
-}
-.forte-title { font-size: 13px; font-weight: 600; color: var(--c1); margin-bottom: 6px; }
-.forte-body { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
-.forte-body b { color: var(--c1); font-weight: 600; }
-
+/* ─── Sequence cards ─────────────────────────────────────────── */
 .seq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 10px; }
-.seq-card { background: rgba(45, 12, 4, 0.55); border: 1px solid rgba(255, 120, 60, 0.15); border-radius: 12px; padding: 12px 14px; backdrop-filter: blur(10px); transition: border-color 0.2s, background 0.2s; }
-.seq-card:hover { border-color: rgba(255, 140, 60, 0.3); background: rgba(70, 22, 8, 0.65); }
-.seq-num { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; display: inline-block; padding: 2px 10px; border-radius: 99px; margin-bottom: 6px; background: rgba(255, 120, 50, 0.15); color: var(--accent); border: 1px solid rgba(255, 120, 50, 0.25); }
-.seq-name { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 5px; font-style: italic; }
-.seq-body { font-size: 12px; color: var(--text-secondary); line-height: 1.65; }
+.seq-card {
+  background: rgba(45, 12, 4, 0.55); border: 1px solid rgba(255, 120, 60, 0.15);
+  border-radius: 12px; padding: 14px 16px; backdrop-filter: blur(10px);
+  transition: border-color 0.25s, background 0.25s;
+}
+.seq-card:hover { border-color: rgba(255, 140, 60, 0.32); background: rgba(70, 22, 8, 0.65); }
+.seq-num {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em; display: inline-block;
+  padding: 2px 10px; border-radius: 99px; margin-bottom: 7px;
+  background: rgba(255, 120, 50, 0.15); color: var(--accent);
+  border: 1px solid rgba(255, 120, 50, 0.25);
+}
+.seq-name { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 7px; font-style: italic; }
 
-.div { height: 1px; background: linear-gradient(to right, transparent, rgba(255,120,50,0.15), transparent); margin: 1.5rem 0; }
+/* ─── Inherent skills ────────────────────────────────────────── */
+.inherent-box {
+  background: linear-gradient(135deg, rgba(80, 25, 8, 0.4) 0%, rgba(40, 12, 4, 0.5) 100%);
+  border: 1px solid rgba(255, 140, 60, 0.2); border-radius: 14px;
+  padding: 1.35rem 1.6rem; backdrop-filter: blur(14px); margin-bottom: 10px;
+  position: relative; overflow: hidden;
+}
+.inherent-box::before {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 60px; height: 60px;
+  background: radial-gradient(circle at top right, rgba(255, 130, 50, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.inherent-title { font-family: 'Cinzel', serif; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 8px; }
 
+/* ─── Glossary ───────────────────────────────────────────────── */
+.glossary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.glossary-card {
+  background: rgba(40, 12, 4, 0.65); border: 1px solid rgba(255, 120, 60, 0.13);
+  border-radius: 12px; padding: 14px 16px; backdrop-filter: blur(8px);
+}
+.glossary-term { font-size: 12px; font-weight: 700; color: var(--c2); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px; }
+.glossary-def b { color: var(--c1); }
+
+/* ─── Divider ────────────────────────────────────────────────── */
+.div {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,120,50,0.18), transparent);
+  margin: 1.75rem 0;
+}
+
+/* ─── Pills (Intro/Outro) ────────────────────────────────────── */
 .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
-.pill { font-size: 12px; padding: 5px 14px; border-radius: 99px; background: rgba(60, 18, 5, 0.5); color: var(--text-secondary); border: 1px solid rgba(255, 120, 60, 0.2); backdrop-filter: blur(6px); line-height: 1.5; }
+.pill {
+  font-family: var(--reading-font);
+  font-size: 15px; padding: 7px 16px; border-radius: 10px;
+  background: rgba(60, 18, 5, 0.5); color: var(--text-secondary);
+  border: 1px solid rgba(255, 120, 60, 0.22); backdrop-filter: blur(6px); line-height: 1.6;
+}
 .pill b { color: var(--c1); }
 
+/* ─── Stats grid ─────────────────────────────────────────────── */
+.top-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stat-cell {
+  background: rgba(50, 15, 5, 0.6); border: 1px solid rgba(255, 120, 60, 0.15);
+  border-radius: 10px; padding: 12px 14px; text-align: center; backdrop-filter: blur(10px);
+}
+.stat-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 5px; }
+.stat-value { font-size: 16px; font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+/* ─── Weapon ─────────────────────────────────────────────────── */
+.weapon-card { height: 100%; }
+.weapon-head { margin-bottom: 10px; }
+.weapon-name { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
+.weapon-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; letter-spacing: 0.04em; }
+.weapon-rank {
+  display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 10px;
+  border-radius: 99px; background: rgba(255, 120, 50, 0.12); color: var(--accent);
+  border: 1px solid rgba(255, 120, 50, 0.2);
+}
+
+/* ─── Pending banner ─────────────────────────────────────────── */
+.pending-banner {
+  font-family: var(--reading-font);
+  font-size: 14px; color: #f5d080;
+  background: rgba(100, 60, 5, 0.35); border: 1px solid rgba(255, 180, 40, 0.25);
+  border-radius: 10px; padding: 12px 18px; margin-bottom: 1.5rem; backdrop-filter: blur(8px);
+  line-height: 1.65;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 680px) {
   .hero { grid-template-columns: 1fr; }
   .hero-img-wrap { justify-content: center; }
   .hero-img { width: 220px; height: 220px; }
   .mode-grid { grid-template-columns: 1fr; }
   .nav-logo { display: none; }
+  .top-row { grid-template-columns: 1fr; }
+  .na-row { grid-template-columns: 1fr; gap: 2px; }
 }
-
-/* ─── NEW SECTIONS ──────────────────────────────────────────── */
-
-.top-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
-@media (max-width: 680px) { .top-row { grid-template-columns: 1fr; } }
-
-/* Stats */
-.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.stat-cell { background: rgba(50, 15, 5, 0.6); border: 1px solid rgba(255, 120, 60, 0.15); border-radius: 10px; padding: 10px 12px; text-align: center; backdrop-filter: blur(10px); }
-.stat-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
-.stat-value { font-size: 15px; font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
-
-/* Weapon */
-.weapon-card { height: 100%; }
-.weapon-head { margin-bottom: 8px; }
-.weapon-name { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
-.weapon-sub { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 0.04em; }
-.weapon-rank { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 99px; background: rgba(255, 120, 50, 0.12); color: var(--accent); border: 1px solid rgba(255, 120, 50, 0.2); }
-
-/* Normal Attack */
-.na-group { margin-bottom: 12px; }
-.na-group-title { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 8px; padding: 4px 10px; background: rgba(255, 120, 50, 0.1); border-radius: 6px; display: inline-block; }
-.na-row { display: grid; grid-template-columns: 200px 1fr; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(255, 120, 60, 0.07); }
-.na-row:last-child { border-bottom: none; }
-.na-row-label { font-size: 12px; font-weight: 600; color: var(--c1); line-height: 1.5; }
-.na-row-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
-@media (max-width: 680px) { .na-row { grid-template-columns: 1fr; gap: 2px; } }
-
-/* Inherent Skills */
-.inherent-box { background: linear-gradient(135deg, rgba(80, 25, 8, 0.4) 0%, rgba(40, 12, 4, 0.5) 100%); border: 1px solid rgba(255, 140, 60, 0.2); border-radius: 14px; padding: 1.1rem 1.4rem; backdrop-filter: blur(14px); margin-bottom: 10px; }
-.inherent-title { font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 6px; }
-.inherent-body { font-size: 12.5px; color: var(--text-secondary); line-height: 1.75; }
-.inherent-body b { color: var(--c1); }
-
-/* Glossary */
-.glossary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
-.glossary-card { background: rgba(40, 12, 4, 0.65); border: 1px solid rgba(255, 120, 60, 0.12); border-radius: 12px; padding: 12px 14px; backdrop-filter: blur(8px); }
-.glossary-term { font-size: 12px; font-weight: 700; color: var(--c2); letter-spacing: 0.05em; margin-bottom: 5px; }
-.glossary-def { font-size: 11.5px; color: var(--text-muted); line-height: 1.6; }
-.glossary-def b { color: var(--c1); }
-
-/* Pending banner */
-.pending-banner { font-size: 12px; color: #f5d080; background: rgba(100, 60, 5, 0.35); border: 1px solid rgba(255, 180, 40, 0.25); border-radius: 10px; padding: 10px 16px; margin-bottom: 1.5rem; backdrop-filter: blur(8px); }
