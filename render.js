@@ -194,16 +194,16 @@ function buildNormalAttack(na) {
     return box;
   };
 
-  // Supporta sia la struttura vecchia (presentSelf/foreclaimedSelf) sia quella nuova (normalForm)
-  const groups = [
-    [na.normalForm,      'Normal Form'],
-    [na.presentSelf,     'Present Self'],
-    [na.foreclaimedSelf, 'Foreclaimed Self / Pre-seeking']
-  ];
-  groups.forEach(([list, title]) => {
-    const node = buildGroup(list, title);
-    if (node) sec.appendChild(node);
-  });
+  // normalForm copre sia "Normal Form" (Feixue) che "Present Self" (Hiyuki)
+  const mainTitle = na.normalFormTitle || 'Normal Form';
+  const altTitle  = na.foreclaimedTitle || 'Pre-seeking / Foreclaimed Self';
+
+  const g1 = buildGroup(na.normalForm,      mainTitle);
+  const g2 = buildGroup(na.presentSelf,     'Present Self');
+  const g3 = buildGroup(na.foreclaimedSelf, altTitle);
+  if (g1) sec.appendChild(g1);
+  if (g2) sec.appendChild(g2);
+  if (g3) sec.appendChild(g3);
 
   return sec;
 }
@@ -387,7 +387,8 @@ function renderHiyuki(root, c, lang) {
     root.appendChild(sec);
   }
 
-  root.appendChild(buildSkillSection(c.variation, L.intro));
+  // Intro Skill (dal foglio)
+  if (c.intro && c.intro.length) root.appendChild(buildSkillSection(c.intro, L.intro));
   root.appendChild(divider());
 
   appendIfExists(root, buildInherent(c.inherent, L.inherent));
@@ -480,7 +481,7 @@ function renderDenia(root, c) {
 
   root.appendChild(buildSkillSection(c.skills, 'Resonance Skill'));
   root.appendChild(buildSkillSection(c.liberation, 'Resonance Liberation'));
-  root.appendChild(buildSkillSection(c.variation, 'Variation Skill / Intro'));
+  if (c.intro && c.intro.length) root.appendChild(buildSkillSection(c.intro, 'Intro Skill'));
   root.appendChild(divider());
 
   appendIfExists(root, buildInherent(c.inherent));

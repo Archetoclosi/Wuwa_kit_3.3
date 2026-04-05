@@ -116,7 +116,8 @@ function csvToSkillData(rows) {
     normalAttack: null,
     skills: [],
     liberation: [],
-    variation: [],
+    intro: [],       // solo intro skill
+    outro: [],       // outro + concerto break → pills
     forte: [],
     resources: [],
     inherent: [],
@@ -136,16 +137,14 @@ function csvToSkillData(rows) {
       }
       for (const r of rows) {
         const label = r.subskill || '';
-        const desc = [r.desc, r.dmg ? `<b>${r.dmg}</b>` : ''].filter(Boolean).join(' — ');
         const labelLow = label.toLowerCase();
-        // Determina il gruppo
+        const values = r.dmg ? [['DMG', r.dmg]] : null;
+        const entry = { label, desc: r.desc || '', values };
         if (labelLow.includes('pre-seeking') || labelLow.includes('foreclaimed')) {
-          result.normalAttack.foreclaimedSelf.push({ label, desc });
-        } else if (labelLow.includes('normal form') || labelLow.includes('present self')) {
-          result.normalAttack.presentSelf.push({ label, desc });
+          result.normalAttack.foreclaimedSelf.push(entry);
         } else {
-          // Fallback: metti in presentSelf se non è chiaro
-          result.normalAttack.presentSelf.push({ label, desc });
+          // "Normal Form", "Present Self", o qualsiasi altro → gruppo principale
+          result.normalAttack.normalForm.push(entry);
         }
       }
     }
@@ -154,8 +153,8 @@ function csvToSkillData(rows) {
     else if (catLow.startsWith('resonance skill')) {
       for (const r of rows) {
         const values = [];
-        if (r.dmg) values.push([r.subskill || 'DMG', r.dmg]);
-        if (r.cd)  values.push(['Cooldown', r.cd]);
+        if (r.dmg)    values.push(['DMG (Lv.10)', r.dmg]);
+        if (r.cd)     values.push(['Cooldown', r.cd]);
         if (r.energy) values.push(['Energia', r.energy]);
         result.skills.push({
           title: r.subskill || cat,
@@ -169,19 +168,18 @@ function csvToSkillData(rows) {
     // ── Resonance Liberation ─────────────────────────────────
     else if (catLow.startsWith('resonance liberation')) {
       for (const r of rows) {
-        // "Shell" e "Longing" e simili sono buff/status, non abilities vere
+        // Buff/status vanno nel glossario
         const isStatus = r.subskill && (
           r.subskill.toLowerCase() === 'shell' ||
           r.subskill.toLowerCase() === 'longing' ||
           r.subskill.toLowerCase().startsWith('resource')
         );
         if (isStatus) {
-          // Trattali come glossario inline
           result.glossary.push({ term: r.subskill, def: r.desc || '' });
           continue;
         }
         const values = [];
-        if (r.dmg)    values.push([r.subskill || 'DMG', r.dmg]);
+        if (r.dmg)    values.push(['DMG (Lv.10)', r.dmg]);
         if (r.cd)     values.push(['Cooldown', r.cd]);
         if (r.energy) values.push(['Energia', r.energy]);
         result.liberation.push({
@@ -197,38 +195,31 @@ function csvToSkillData(rows) {
     else if (catLow.startsWith('intro skill')) {
       for (const r of rows) {
         const values = [];
-        if (r.dmg)    values.push([r.subskill || 'DMG', r.dmg]);
-        if (r.energy) values.push(['Energia', r.energy]);
-        result.variation.push({
+        if (r.dmg)    values.push(['DMG (Lv.10)', r.dmg]);
+        if (r.energy) values.push(['Concerto Energy', r.energy]);
+        result.intro.push({
           title: r.subskill || cat,
-          tags: [{ label: 'Intro Skill' + (r.energy ? ` · ${r.energy}` : ''), type: 'g' }],
+          tags: [{ label: 'Intro Skill', type: 'g' }],
           body: r.desc || '',
           values: values.length ? values : null
         });
       }
     }
 
-    // ── Outro Skill ──────────────────────────────────────────
+    // ── Outro Skill → pill ───────────────────────────────────
     else if (catLow.startsWith('outro skill')) {
       for (const r of rows) {
-        result.variation.push({
-          title: (r.subskill ? `Outro — ${r.subskill}` : cat),
-          tags: [{ label: 'Outro Skill', type: 'b' }],
-          body: r.desc || (r.dmg ? `<b>${r.dmg}</b>` : ''),
-          values: null
-        });
+        const label = r.subskill ? `Outro — <b>${r.subskill}</b>` : 'Outro Skill';
+        const body = [r.desc, r.dmg ? `<b>${r.dmg}</b>` : ''].filter(Boolean).join(' ');
+        result.outro.push(label + (body ? ': ' + body : ''));
       }
     }
 
-    // ── Concerto Break ────────────────────────────────────────
+    // ── Concerto Break → pill ────────────────────────────────
     else if (catLow.startsWith('concerto break')) {
       for (const r of rows) {
-        result.variation.push({
-          title: (r.subskill ? `Concerto Break — ${r.subskill}` : cat),
-          tags: [{ label: 'Concerto Break', type: 'l' }],
-          body: r.desc || '',
-          values: null
-        });
+        const label = r.subskill ? `Concerto Break — <b>${r.subskill}</b>` : 'Concerto Break';
+        result.outro.push(label + (r.desc ? ': ' + r.desc : ''));
       }
     }
 
@@ -238,22 +229,16 @@ function csvToSkillData(rows) {
         const labelLow = (r.subskill || '').toLowerCase();
         if (labelLow.startsWith('resource')) {
           result.resources.push({
-            name: r.subskill.replace(/^resource\s*[–—-]?\s*/i, ''),
+            name: r.subskill.replace(/^resource\s*(limit\s*)?[–—-]?\s*/i, ''),
             desc: r.desc || '',
             max: ''
           });
-        } else if (labelLow.includes('iai') || labelLow.includes('iai slash')) {
-          // Iai è una meccanica speciale, trattala come Forte
-          const values = r.dmg ? [[r.subskill, r.dmg]] : null;
+        } else {
+          const values = r.dmg ? [['DMG (Lv.10)', r.dmg]] : null;
           result.forte.push({
-            title: r.subskill || '',
+            title: r.subskill || cat,
             body: r.desc || '',
             values
-          });
-        } else {
-          result.forte.push({
-            title: r.subskill || '',
-            body: r.desc || ''
           });
         }
       }
@@ -263,10 +248,12 @@ function csvToSkillData(rows) {
     else if (catLow.startsWith('resonance chain')) {
       const seqNums = ['S1','S2','S3','S4','S5','S6'];
       rows.forEach((r, i) => {
+        const values = r.dmg ? [['Effetto', r.dmg]] : null;
         result.sequences.push({
           num: seqNums[i] || `S${i+1}`,
           name: r.subskill || '',
-          body: [r.desc, r.dmg ? `<b>${r.dmg}</b>` : ''].filter(Boolean).join(' ')
+          body: r.desc || '',
+          values
         });
       });
     }
@@ -274,21 +261,15 @@ function csvToSkillData(rows) {
     // ── Inherent Skills ──────────────────────────────────────
     else if (catLow.startsWith('inherent skill')) {
       for (const r of rows) {
-        result.inherent.push({
-          title: r.subskill || '',
-          body: r.desc || ''
-        });
+        result.inherent.push({ title: r.subskill || '', body: r.desc || '' });
       }
     }
 
-    // ── Tutto il resto: forte generico ────────────────────────
+    // ── Fallback: forte generico ──────────────────────────────
     else {
       for (const r of rows) {
         if (r.subskill || r.desc) {
-          result.forte.push({
-            title: r.subskill || cat,
-            body: r.desc || ''
-          });
+          result.forte.push({ title: r.subskill || cat, body: r.desc || '' });
         }
       }
     }
@@ -331,10 +312,14 @@ async function loadCharacterFromSheet(key) {
   const staticData = DATA_STATIC[key];
 
   // Merge: dati statici + skill dal foglio
-  return Object.assign({}, staticData, skillData, {
-    // Se il foglio non ha intro_outro, usa quello statico
-    intro_outro: staticData.intro_outro || skillData.intro_outro || []
-  });
+  const merged = Object.assign({}, staticData, skillData);
+  // intro_outro statico ha priorità; fallback sulle pills outro del foglio
+  merged.intro_outro = (staticData.intro_outro && staticData.intro_outro.length)
+    ? staticData.intro_outro
+    : (skillData.outro || []);
+  // variation non usata più — svuotare per evitare sezioni doppie
+  merged.variation = [];
+  return merged;
 }
 
 // ── Utility: mostra loading state ────────────────────────────────
